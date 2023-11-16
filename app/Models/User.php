@@ -42,4 +42,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function userHasManyPost()
+    {
+        return $this->hasMany(RecipePost::class, 'recipe_user_id');
+    }
+
+
+    public function userHasManyLikes()
+    {
+        return $this->hasMany(RecipeLike::class, 'recipe_user_id');
+    }
 }
