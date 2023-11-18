@@ -18,23 +18,23 @@ class RecipePostSeeder extends Seeder
             'recipe_user_id' => 1,
             'judul' => 'Resep Rawon Enak',
             'desc' => 'Konon katanya resep rawon daging sapi khas Jawa Timur adalah salah satu masakan yang paling tua di Indonesia dan benar-benar otentik. Kita juga mengenal banyak pengaruh asing yang sudah berasimilasi dengan kearifan lokal dan kini menjadi berbagai masakan tradisional. Tapi rawon terhitung sebagai yang paling klasik dan penampilannya yang unik ini sudah dikenal sejak abad ke 10!',
-            'photo' => 'photo.jpg',
+            'photo' => 'photo_biasa.jpeg',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         DB::table('recipe_posts')->insert([
             'recipe_user_id' => 2,
-            'judul' => 'Resep Rawon Super',
+            'judul' => 'Resep Soto Enak',
             'desc' => 'Konon katanya resep rawon daging sapi khas Jawa Timur adalah salah satu masakan yang paling tua di Indonesia dan benar-benar otentik. Kita juga mengenal banyak pengaruh asing yang sudah berasimilasi dengan kearifan lokal dan kini menjadi berbagai masakan tradisional. Tapi rawon terhitung sebagai yang paling klasik dan penampilannya yang unik ini sudah dikenal sejak abad ke 10!',
-            'photo' => 'photo.jpg',
+            'photo' => 'photo_biasa.jpeg',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         DB::table('recipe_posts')->insert([
             'recipe_user_id' => 2,
-            'judul' => 'Resep Soto',
+            'judul' => 'Resep Pasta Carbonara',
             'desc' => 'Konon katanya resep rawon daging sapi khas Jawa Timur adalah salah satu masakan yang paling tua di Indonesia dan benar-benar otentik. Kita juga mengenal banyak pengaruh asing yang sudah berasimilasi dengan kearifan lokal dan kini menjadi berbagai masakan tradisional. Tapi rawon terhitung sebagai yang paling klasik dan penampilannya yang unik ini sudah dikenal sejak abad ke 10!',
-            'photo' => 'photo.jpg',
+            'photo' => 'photo_biasa.jpeg',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

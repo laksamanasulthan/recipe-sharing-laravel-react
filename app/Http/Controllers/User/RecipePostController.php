@@ -12,6 +12,7 @@ use App\Http\Requests\UpdateRecipePostRequest;
 use App\Models\RecipeIngredient;
 use App\Models\RecipeStep;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class RecipePostController extends Controller
 {
@@ -44,7 +45,8 @@ class RecipePostController extends Controller
             'Recipe/MyRecipe',
             [
                 'recipes' => $postsRecipe,
-                'currentUser' => Auth::user()->id
+                'currentUser' => Auth::user()->id,
+                // 'baseUrl' => config('APP_URL')
             ]
         );
     }
@@ -148,9 +150,12 @@ class RecipePostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(RecipePost $recipePost)
+    public function show(RecipePost $id)
     {
-        //
+        return Inertia::render('Recipe/InsideRecipe', [
+            'recipe' => $id->load('postHasManyIngredients', 'postHasManySteps'),
+            'currentUser' => Auth::user()->id
+        ]);
     }
 
     /**
@@ -158,8 +163,8 @@ class RecipePostController extends Controller
      */
     public function edit(RecipePost $id)
     {
-        return Inertia::render('Recipe/InsideRecipe', [
-            'recipe' => $id->load('postHasManyIngredients', 'postHasManySteps')
+        return Inertia::render('Recipe/UpdateRecipe', [
+            'recipe' => $id->load('postHasManyIngredients', 'postHasManySteps'),
         ]);
     }
 
@@ -176,9 +181,49 @@ class RecipePostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRecipePostRequest $request, RecipePost $recipePost)
+    public function update(UpdateRecipePostRequest $request, RecipePost $id)
     {
-        //
+        // DB::beginTransaction();
+        // try {
+
+        if ($request->has('photo')) {
+            $recipe_photo = $request->file('photo');
+            $recipe_photo_name = time() . "_" . $request->judul . "_" . Auth::user()->name . "_" . $recipe_photo->getClientOriginalName();
+            $destination = "photo";
+            $recipe_photo->move($destination, $recipe_photo_name);
+            $old_file = $id->photo;
+            File::delete($destination . "/" . $old_file);
+        }
+
+        $id->update(array_filter([
+            'recipe_user_id' => Auth::user()->id,
+            'judul' => $request->judul,
+            'desc' => $request->desc,
+            'photo' => !empty($recipe_photo_name) ? $recipe_photo_name : NULL,
+        ]));
+
+        if ($request->has('bahan')) {
+            RecipeIngredient::where('recipe_post_id', $id->id)->delete();
+            RecipeIngredient::create([
+                'recipe_post_id' => $id->id,
+                'ingredients' => $request->bahan
+            ]);
+        }
+
+        if ($request->has('step')) {
+            RecipeStep::where('recipe_post_id', $id->id)->delete();
+            RecipeStep::create([
+                'recipe_post_id' => $id->id,
+                'step' => $request->langkah
+            ]);
+        }
+
+        //     DB::commit();
+        // } catch (\Throwable $th) {
+        //     DB::rollback();
+        // }
+
+        return to_route('recipe');
     }
 
     /**

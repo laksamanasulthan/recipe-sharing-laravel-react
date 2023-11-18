@@ -41,12 +41,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/myrecipe', [RecipePostController::class, 'myRecipe'])->name('myrecipe');
     Route::get('/recipe', [RecipePostController::class, 'index'])->name('recipe');
-    Route::get('/recipe/{id}', [RecipePostController::class, 'edit'])->name('inside-recipe');
+    Route::get('/recipe/{id}', [RecipePostController::class, 'show'])->name('inside-recipe');
     Route::delete('recipe/{id}', [RecipePostController::class, 'destroy'])->name('delete-recipe');
     Route::patch('recipe/{id}', [RecipePostController::class, 'update'])->name('update-id');
     Route::get('/create-recipe', [RecipePostController::class, 'create'])->name('create-recipe');
     Route::post('/submit-recipe', [RecipePostController::class, 'store'])->name('store-recipe');
     Route::get('/list-of-like/{id}', [RecipePostController::class, 'listOfLike'])->name('list-of-like');
+    Route::get('/edit-recipe/{id}', [RecipePostController::class, 'edit'])->name('edit-recipe');
+    Route::put('/update-recipes/{id}', [RecipePostController::class, 'update'])->name('update-recipe');
 
     Route::post('/like-recipe', [RecipeLikeController::class, 'like'])->name('like-recipe');
     Route::post('/unlike-recipe', [RecipeLikeController::class, 'unlike'])->name('unlike-recipe');

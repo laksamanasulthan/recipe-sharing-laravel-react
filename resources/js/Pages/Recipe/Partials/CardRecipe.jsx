@@ -21,6 +21,7 @@ export default function CardRecipe ({recipe, currentUser=null})
         router.post('/unlike-recipe', values)
     };
 
+
     const destroy = (e) =>
     {
         router.delete(route("delete-recipe", recipe.id));     
@@ -28,10 +29,12 @@ export default function CardRecipe ({recipe, currentUser=null})
 
     return (
     <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src='http://localhost:8000/photo/photo_biasa.jpeg' />
+      <Card.Img variant="top" src={`http://localhost:8000/photo/${recipe.photo}`} />
       <Card.Body>
         <Card.Title>
-            <NavLink href={route('inside-recipe', recipe.id)}>
+            <NavLink 
+                href={route('inside-recipe', recipe.id)
+            }>
                 <h3>{recipe.judul}</h3>
             </NavLink>
         </Card.Title>
@@ -51,8 +54,8 @@ export default function CardRecipe ({recipe, currentUser=null})
             {
 
             }
-            <Button type='submit' color='gray' variant="primary">Like</Button>&nbsp;&nbsp;
-            <Button onClick={unlike} color='gray' variant="primary">Unlike</Button>&nbsp;&nbsp;
+            <Button type='submit' color='gray' variant="primary">Like</Button>&nbsp;
+            <Button onClick={unlike} color='gray' variant="primary">Unlike</Button>&nbsp;
 
             { 
                 recipe.recipe_user_id === currentUser ? 

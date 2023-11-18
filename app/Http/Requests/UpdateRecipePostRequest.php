@@ -11,7 +11,7 @@ class UpdateRecipePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateRecipePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'judul' => ['max:255'],
+            'desc' => [],
+            'bahan' => [],
+            'langkah' => [],
+            'photo' => ['file', 'mimes:jpg,png,jpeg,gif', 'max:4096'],
         ];
     }
 }

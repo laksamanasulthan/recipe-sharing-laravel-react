@@ -21,6 +21,7 @@ export default function MyRecipe({ auth, recipes, currentUser }) {
                                     key={item.id}
                                     recipe = {item}
                                     currentUser={currentUser}
+                                  
                                 ></CardRecipe> 
                             </div>
                               

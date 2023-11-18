@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('recipe_steps', function (Blueprint $table) {
             $table->id();
             $table->foreignId('recipe_post_id')->nullable()->constrained('recipe_posts')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->string('step');
+            $table->longText('step');
             $table->timestamps();
         });
     }
