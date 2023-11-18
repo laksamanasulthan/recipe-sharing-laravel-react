@@ -1,4 +1,7 @@
-![SharedScreenshotx](https://github.com/laksamanasulthan/recipe-sharing-laravel-react/assets/92253988/d46773ba-eee9-4f17-a3b6-34bf2a4de084)# Recipe Sharing Laravel + Inertia.js + React.js
+
+![Screenshot Capture - 2023-11-18 - 21-50-25](https://github.com/laksamanasulthan/recipe-sharing-laravel-react/assets/92253988/2c6f3944-dd63-4b8a-b03d-b9900f6d5efa)
+
+# Recipe Sharing Laravel + Inertia.js + React.js
 
 Merupakan Aplikasi Sharing Resep/Recipe Sharing, yang dikembangkan dengan menggunakan Arsitektur Modern Monolith. [Modern Monolith Definition](https://inertiajs.com/). Techstack yang digunakan didalam aplikasi ini berupa PHP 8.2, Laravel 10, Node.js 18.14, Inertia.js 1.0.0, React.js 18
 
