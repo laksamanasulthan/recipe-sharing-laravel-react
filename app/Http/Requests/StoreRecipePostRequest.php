@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
 
 class StoreRecipePostRequest extends FormRequest
 {
@@ -24,9 +26,15 @@ class StoreRecipePostRequest extends FormRequest
         return [
             'judul' => ['required', 'min:1', 'max:255'],
             'desc' => ['required', 'min:1'],
-            'bahan[]' => ['required'],
-            'langkah[]' => ['required'],
+            'bahan' => ['required'],
+            'langkah' => ['required'],
             'photo' => ['file', 'mimes:jpg,png,jpeg,gif', 'max:4096'],
         ];
     }
+
+    // protected function failedValidation(Validator $validator)
+    // {
+    //     throw (new ValidationException($validator))
+    //         ->errorBag($this->errorBag);
+    // }
 }

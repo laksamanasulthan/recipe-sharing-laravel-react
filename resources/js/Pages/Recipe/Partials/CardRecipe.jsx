@@ -28,7 +28,7 @@ export default function CardRecipe ({recipe, currentUser=null})
 
     return (
     <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" />
+      <Card.Img variant="top" src='http://localhost:8000/photo/photo_biasa.jpeg' />
       <Card.Body>
         <Card.Title>
             <NavLink href={route('inside-recipe', recipe.id)}>

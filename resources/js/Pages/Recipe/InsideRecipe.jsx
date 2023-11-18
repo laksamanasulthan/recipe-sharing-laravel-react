@@ -21,23 +21,23 @@ export default function InsideRecipe ({auth, recipe})
                             <p>{recipe.post_has_many_ingredients.ingredients}</p>
                             <h4>Bahan-Bahan</h4>
                             { recipe.post_has_many_ingredients.map( (item) => (
-                                <div
+                                <pre
                                     key={item.id} 
                                     className="col"
                                 >
                                     {item.ingredients}
-                                </div>
+                                </pre>
                                 )) 
                             }
                             <p></p>
                             <h4>Langkah Pembuatan</h4>
                             { recipe.post_has_many_steps.map( (item) => (
-                                <div
+                                <pre
                                     key={item.id} 
                                     className="col
                                 ">
                                     {item.step}
-                                </div>
+                                </pre>
                                 )) 
                             }
                             <br />

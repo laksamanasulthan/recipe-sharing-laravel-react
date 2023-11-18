@@ -1,38 +1,44 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import React, { useState } from 'react';
-import { router } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 
 export default function LandingRecipe({ auth }) {
-    const [values, setValues] = useState({ // Form fields
-        judul: "",
-        desc: "",
-        bahan: "",
-        langkah: "",
-        // upload: "",
-    });
 
-    // We will use function below to get
-    // values from form inputs
-    function handleChange(e) {
-        const key = e.target.id;
-        const value = e.target.value
-        setValues(values => ({
-            ...values,
-            [key]: value,
-        }))
+    // const [inputFields, setInputFields] = useState([
+    //     { 
+    //         bahan: [], 
+    //     }
+    // ])
+
+    const { data, setData, post, progress } = useForm({
+        judul: null,
+        desc: null,
+        bahan: null,
+        langkah: null,
+        photo: null,
+    })
+
+    // const handleFormChange = (index, event) => {
+    //     let data = [...inputFields];
+    //     data[index][event.target.name] = event.target.value;
+    //     setInputFields(data);
+    // }
+
+    const addFields = () => {
+        let newfield = { bahan: '' }
+        setInputFields([...inputFields, newfield])
     }
 
-    // This function will send our form data to
-    // store function of PostContoller
-    function handleSubmit(e) {
-        e.preventDefault();
-        console.log(values);
-        post(route('submit-recipe'));
+    const submit = (e) => {
+        e.preventDefault()
+        post('/submit-recipe')
+        console.log(data);
     }
+
 
     return (
         <AuthenticatedLayout
@@ -45,40 +51,58 @@ export default function LandingRecipe({ auth }) {
                      <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <br />
                             <h4 className="sm:px-8 lg:px-8">Tulis Resepmu</h4>
-                            <Form onSubmit={handleSubmit} className="sm:px-8 lg:px-8">
+                            <Form onSubmit={submit} className="sm:px-8 lg:px-8">
                                 <Form.Group className="mb-3" >
                                     <Form.Label htmlFor='judul'>Judul</Form.Label>
-                                    <Form.Control id="judul" value={values.judul} onChange={handleChange} type="text" placeholder="title" />
+                                    <Form.Control id='judul' name='judul' value={data.judul} onChange={e => setData('judul', e.target.value)} type="text" placeholder="title" />
                                 </Form.Group>
                                 <Form.Group className="mb-3" >
                                     <Form.Label htmlFor='desc' >Deskripsi</Form.Label>
-                                    <Form.Control id="desc" value={values.desc} onChange={handleChange} as="textarea" rows={3} />
+                                    <Form.Control id="desc" name="desc" value={data.desc} onChange={e => setData('desc', e.target.value)} as="textarea" rows={3} />
+                                </Form.Group>
+
+                                
+                                {/* <Form.Label htmlFor='bahan'>Bahan</Form.Label>
+                                {inputFields.map((input, index) => {
+                                return (
+                                   <div key={index}>
+
+                                    <Form.Group className="mb-3" >
+                                        
+                                        <Form.Control    
+                                            id ='bahan'
+                                            name='bahan'
+                                            placeholder='bahan'
+                                            value={input.bahan}
+                                            onChange={event => handleFormChange(index, event)} 
+                                            type="text"  
+                                        />
+                                    </Form.Group>
+                                    </div>
+
+
+                                )
+                                })}
+                               <button onClick={addFields}>+ Input Field</button> */}
+                                
+                                <Form.Group className="mb-3" >
+                                    <Form.Label htmlFor='bahan'>Bahan</Form.Label>
+                                    <Form.Control value={data.bahan} onChange={e => setData('bahan', e.target.value)} as="textarea" rows={3}  />
+                                </Form.Group>
+                                <Form.Group className="mb-3" >
+                                    <Form.Label htmlFor='langkah'>Langkah-Langkah</Form.Label>
+                                    <Form.Control id="langkah" nama='langkah' value={data.langkah} onChange={e => setData('langkah', e.target.value)} as="textarea" rows={3} />
                                 </Form.Group>
                                 <Form.Group controlId="formFile" className="mb-3">
                                     <Form.Label>Upload Foto Masakan</Form.Label>
-                                    <Form.Control type="file" />
+                                    <Form.Control id="photo" nama="photo" type="file" onChange={e => setData('photo', e.target.files[0])} />
                                 </Form.Group>
                                 <Button variant="primary" type="submit">
                                     Submit
                                 </Button>     
                             </Form>
                             <br />
-                        {/* <div className="p-6 text-gray-900">You're logged in!</div> */}
-                         {/* <form onSubmit={handleSubmit}>
-                            <label htmlFor="judul">Title:</label>
-                            <input id="judul" value={values.judul} onChange={handleChange} />
 
-                            <label htmlFor="desc">Body:</label>
-                            <textarea id="desc" value={values.desc} onChange={handleChange}></textarea>
-
-                            <label htmlFor="bahan">Title:</label>
-                            <input id="bahan" value={values.bahan} onChange={handleChange} />
-
-                            <label htmlFor="judul">Title:</label>
-                            <input id="langkah" value={values.langkah} onChange={handleChange} />
-
-                            <button type="submit">Create</button>
-                        </form> */}
                     </div>
                 </div>
             </div>

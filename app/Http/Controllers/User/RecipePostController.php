@@ -20,12 +20,13 @@ class RecipePostController extends Controller
      */
     public function index()
     {
-        $postsRecipe  = RecipePost::withCount('postHasManyLikes')->get();
+        $postsRecipe  = RecipePost::withCount('postHasManyLikes')->latest()->get();
         return Inertia::render(
             'Recipe/LandingRecipe',
             [
                 'recipes' => $postsRecipe,
-                'currentUser' => Auth::user()->id
+                'currentUser' => Auth::user()->id,
+
             ]
         );
     }
@@ -37,6 +38,7 @@ class RecipePostController extends Controller
     {
         $postsRecipe  = RecipePost::withCount('postHasManyLikes')
             ->where('recipe_user_id', Auth::user()->id)
+            ->latest()
             ->get();
         return Inertia::render(
             'Recipe/MyRecipe',
@@ -58,6 +60,53 @@ class RecipePostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(StoreRecipePostRequest $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+
+    //         if ($request->has('photo')) {
+    //             $recipe_photo = $request->file('photo');
+    //             $recipe_photo_name = time() . "_" . 'photo' . "_" . Auth::user()->name . "_" . $recipe_photo->getClientOriginalName();
+    //             $destination = "recipe_photo";
+    //             $recipe_photo->move($destination, $recipe_photo_name);
+    //         }
+
+    //         $createRecipe = RecipePost::create([
+    //             'judul' => $request->judul,
+    //             'desc' => $request->desc,
+    //             'photo' => !empty($request_photo_name) ? $request_photo_name : NULL,
+    //         ]);
+
+    //         foreach ($request->bahan as $ingredient) {
+    //             $ingredients[] = [
+    //                 'recipe_post_id' => $createRecipe->id,
+    //                 'ingredients' => $ingredient,
+    //                 'created_at' => Carbon::now(),
+    //                 'updated_at' => Carbon::now(),
+    //             ];
+    //         }
+    //         $createIngredients = RecipeIngredient::insert($ingredients);
+
+
+    //         foreach ($request->step as $step) {
+    //             $steps[] = [
+    //                 'recipe_post_id' => $createRecipe->id,
+    //                 'step' => $step,
+    //                 'created_at' => Carbon::now(),
+    //                 'updated_at' => Carbon::now(),
+    //             ];
+    //         }
+    //         $createSteps  = RecipeStep::insert($step);
+
+    //         DB::commit();
+    //     } catch (\Throwable $th) {
+    //         DB::rollback();
+    //     }
+
+    //     return Inertia::render('Recipe/LandingRecipe');
+    // }
+
     public function store(StoreRecipePostRequest $request)
     {
         DB::beginTransaction();
@@ -65,44 +114,35 @@ class RecipePostController extends Controller
 
             if ($request->has('photo')) {
                 $recipe_photo = $request->file('photo');
-                $recipe_photo_name = time() . "_" . 'photo' . "_" . Auth::user()->name . "_" . $recipe_photo->getClientOriginalName();
-                $destination = "recipe_photo";
+                $recipe_photo_name = time() . "_" . $request->judul . "_" . Auth::user()->name . "_" . $recipe_photo->getClientOriginalName();
+                $destination = "photo";
                 $recipe_photo->move($destination, $recipe_photo_name);
             }
 
             $createRecipe = RecipePost::create([
+                'recipe_user_id' => Auth::user()->id,
                 'judul' => $request->judul,
                 'desc' => $request->desc,
-                'photo' => !empty($request_photo_name) ? $request_photo_name : NULL,
+                'photo' => !empty($recipe_photo_name) ? $recipe_photo_name : NULL,
             ]);
 
-            foreach ($request->bahan as $ingredient) {
-                $ingredients[] = [
-                    'recipe_post_id' => $createRecipe->id,
-                    'ingredients' => $ingredient,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ];
-            }
-            $createIngredients = RecipeIngredient::insert($ingredients);
+            RecipeIngredient::create([
+                'recipe_post_id' => $createRecipe->id,
+                'ingredients' => $request->bahan
+            ]);
 
 
-            foreach ($request->step as $step) {
-                $steps[] = [
-                    'recipe_post_id' => $createRecipe->id,
-                    'step' => $step,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ];
-            }
-            $createSteps  = RecipeStep::insert($step);
+            RecipeStep::create([
+                'recipe_post_id' => $createRecipe->id,
+                'step' => $request->langkah
+            ]);
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
         }
 
-        return Inertia::render('Recipe/LandingRecipe');
+        return to_route('recipe');
     }
 
     /**
@@ -129,7 +169,7 @@ class RecipePostController extends Controller
     public function listOfLike(RecipePost $id)
     {
         return Inertia::render('Recipe/LikeRecipe', [
-            'recipe' => $id->load('postHasManyLikes')
+            'recipe' => $id->load('postHasManyLikes', 'postBelongsToUser')
         ]);
     }
 

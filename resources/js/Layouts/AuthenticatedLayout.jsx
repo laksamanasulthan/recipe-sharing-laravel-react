@@ -21,8 +21,9 @@ export default function Authenticated({ user, header, children }) {
                             </div> */}
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
+                                <NavLink href={route('recipe')} >
+                                    
+                                    <h3>Resepku</h3> 
                                 </NavLink>
                             </div>
 
@@ -139,6 +140,20 @@ export default function Authenticated({ user, header, children }) {
             )}
 
             <main>{children}</main>
+            <footer>
+                <div class='container'>
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <ul>
+                            <li><a href='https://github.com/laksamanasulthan/recipe-sharing-laravel-react'>Github</a></li>
+                            <li><a href='https://www.linkedin.com/in/laksamana-sulthan-a-s/'>Linkedin</a></li>
+                            <li><a href='#'></a></li>
+                            <p>&copy;  Laksamana Sulthan Alam S@2023</p>
+                        </ul>
+                    </div>
+                </div>
+                </div>
+            </footer>
         </div>
     );
 }
