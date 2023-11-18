@@ -20,11 +20,11 @@ class RecipePostController extends Controller
      */
     public function index()
     {
-        $posts  = RecipePost::withCount('postHasManyLikes')->get();
+        $postsRecipe  = RecipePost::withCount('postHasManyLikes')->get();
         return Inertia::render(
             'Recipe/LandingRecipe',
             [
-                'posts' => $posts,
+                'recipes' => $postsRecipe,
                 'currentUser' => Auth::user()->id
             ]
         );
@@ -35,13 +35,13 @@ class RecipePostController extends Controller
      */
     public function myRecipe()
     {
-        $posts  = RecipePost::withCount('postHasManyLikes')
+        $postsRecipe  = RecipePost::withCount('postHasManyLikes')
             ->where('recipe_user_id', Auth::user()->id)
             ->get();
         return Inertia::render(
             'Recipe/MyRecipe',
             [
-                'posts' => $posts,
+                'recipes' => $postsRecipe,
                 'currentUser' => Auth::user()->id
             ]
         );
@@ -119,7 +119,17 @@ class RecipePostController extends Controller
     public function edit(RecipePost $id)
     {
         return Inertia::render('Recipe/InsideRecipe', [
-            'post' => $id->load('postHasManyIngredients', 'postHasManySteps')
+            'recipe' => $id->load('postHasManyIngredients', 'postHasManySteps')
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function listOfLike(RecipePost $id)
+    {
+        return Inertia::render('Recipe/LikeRecipe', [
+            'recipe' => $id->load('postHasManyLikes')
         ]);
     }
 

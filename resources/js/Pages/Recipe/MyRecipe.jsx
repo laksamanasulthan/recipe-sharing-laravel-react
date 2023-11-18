@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/react';
 import CardRecipe from './Partials/CardRecipe';
 
 
-export default function MyRecipe({ auth, posts, currentUser }) {
+export default function MyRecipe({ auth, recipes, currentUser }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -15,11 +15,11 @@ export default function MyRecipe({ auth, posts, currentUser }) {
             <div className="py-12">
                 <div className="cards max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-                    { posts && posts.map( (item) => (
+                    { recipes && recipes.map( (item) => (
                             <div className="col">
                                 <CardRecipe
                                     key={item.id}
-                                    post = {item}
+                                    recipe = {item}
                                     currentUser={currentUser}
                                 ></CardRecipe> 
                             </div>

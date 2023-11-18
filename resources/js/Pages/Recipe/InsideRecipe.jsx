@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import React, { useState } from 'react';
 
 
-export default function InsideRecipe ({auth,post}) 
+export default function InsideRecipe ({auth, recipe}) 
 {
     return (
         <AuthenticatedLayout
@@ -16,11 +16,11 @@ export default function InsideRecipe ({auth,post})
                      <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <br />
                         <div className="sm:px-8 lg:px-8">
-                            <h2>{post.judul}</h2>
-                            <p>{post.desc}</p>
-                            <p>{post.post_has_many_ingredients.ingredients}</p>
+                            <h2>{recipe.judul}</h2>
+                            <p>{recipe.desc}</p>
+                            <p>{recipe.post_has_many_ingredients.ingredients}</p>
                             <h4>Bahan-Bahan</h4>
-                            { post.post_has_many_ingredients.map( (item) => (
+                            { recipe.post_has_many_ingredients.map( (item) => (
                                 <div
                                     key={item.id} 
                                     className="col"
@@ -31,7 +31,7 @@ export default function InsideRecipe ({auth,post})
                             }
                             <p></p>
                             <h4>Langkah Pembuatan</h4>
-                            { post.post_has_many_steps.map( (item) => (
+                            { recipe.post_has_many_steps.map( (item) => (
                                 <div
                                     key={item.id} 
                                     className="col

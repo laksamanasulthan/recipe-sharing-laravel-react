@@ -43,8 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('recipe/{id}', [RecipePostController::class, 'update'])->name('update-id');
     Route::get('/create-recipe', [RecipePostController::class, 'create'])->name('create-recipe');
     Route::post('/submit-recipe', [RecipePostController::class, 'store'])->name('store-recipe');
+    Route::get('/list-of-like/{id}', [RecipePostController::class, 'listOfLike'])->name('list-of-like');
 
     Route::post('/like-recipe', [RecipeLikeController::class, 'like'])->name('like-recipe');
+    Route::post('/unlike-recipe', [RecipeLikeController::class, 'unlike'])->name('unlike-recipe');
 });
 
 require __DIR__ . '/auth.php';

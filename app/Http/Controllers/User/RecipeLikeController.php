@@ -16,23 +16,21 @@ class RecipeLikeController extends Controller
     /**
      * Display People who like the Post
      */
-    public function show(Request $request)
-    {
+    // public function show(Request $request)
+    // {
+    //     $folksWhoLikesThePost = RecipeLike::with(['likesBelongsToUser:name'])
+    //         ->where('recipe_post_id', $request->recipe_post_id)
+    //         ->get();
 
-        $folksWhoLikesThePost = RecipeLike::with(['likesBelongsToUser:name'])
-            ->where('recipe_post_id', $request->recipe_post_id)
-            ->get();
-
-        return Inertia::render();
-    }
+    //     return Inertia::render();
+    // }
 
     /**
      * Like  Logic
      */
     public function like(StoreRecipeLikeRequest $request)
     {
-        // dd($request);
-        RecipeLike::create([
+        RecipeLike::firstOrCreate([
             'recipe_post_id' => $request->post_id,
             'recipe_user_id' => $request->user_id,
         ]);
@@ -43,9 +41,8 @@ class RecipeLikeController extends Controller
      */
     public function unlike(StoreRecipeLikeRequest $request)
     {
-        RecipeLike::where([
-            ['recipe_post_id', $request->recipe_post_id],
-            ['recipe_user_id', Auth::user()->id,]
-        ])->delete();
+        RecipeLike::where('recipe_post_id', $request->post_id)
+            ->where('recipe_user_id', $request->user_id)
+            ->delete();
     }
 }
