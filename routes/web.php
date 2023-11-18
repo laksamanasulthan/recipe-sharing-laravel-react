@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\RecipeLikeController;
 use App\Http\Controllers\User\RecipePostController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -35,13 +36,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/myrecipe', [RecipePostController::class, 'myRecipe'])->name('myrecipe');
     Route::get('/recipe', [RecipePostController::class, 'index'])->name('recipe');
+    Route::get('/recipe/{id}', [RecipePostController::class, 'edit'])->name('inside-recipe');
+    Route::delete('recipe/{id}', [RecipePostController::class, 'destroy'])->name('delete-recipe');
+    Route::patch('recipe/{id}', [RecipePostController::class, 'update'])->name('update-id');
+    Route::get('/create-recipe', [RecipePostController::class, 'create'])->name('create-recipe');
+    Route::post('/submit-recipe', [RecipePostController::class, 'store'])->name('store-recipe');
 
-    Route::group(['prefix' => 'recipe-post', 'controller' => RecipePostController::class], function () {
-        Route::get('/', 'index')->name('allrecipe');
-        Route::post('/', 'store')->name('stroeRecipe');
-        Route::patch('/{id}', 'update')->name('updateRecipe');
-    })->name('recipe_post');
+    Route::post('/like-recipe', [RecipeLikeController::class, 'like'])->name('like-recipe');
 });
 
 require __DIR__ . '/auth.php';

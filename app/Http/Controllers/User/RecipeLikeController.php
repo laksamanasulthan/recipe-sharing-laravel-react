@@ -18,6 +18,7 @@ class RecipeLikeController extends Controller
      */
     public function show(Request $request)
     {
+
         $folksWhoLikesThePost = RecipeLike::with(['likesBelongsToUser:name'])
             ->where('recipe_post_id', $request->recipe_post_id)
             ->get();
@@ -30,9 +31,10 @@ class RecipeLikeController extends Controller
      */
     public function like(StoreRecipeLikeRequest $request)
     {
+        // dd($request);
         RecipeLike::create([
-            'recipe_post_id' => $request->recipe_post_id,
-            'recipe_user_id' => Auth::user()->id,
+            'recipe_post_id' => $request->post_id,
+            'recipe_user_id' => $request->user_id,
         ]);
     }
 

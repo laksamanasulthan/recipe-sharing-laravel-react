@@ -24,7 +24,25 @@ class RecipePostController extends Controller
         return Inertia::render(
             'Recipe/LandingRecipe',
             [
-                'posts' => $posts
+                'posts' => $posts,
+                'currentUser' => Auth::user()->id
+            ]
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function myRecipe()
+    {
+        $posts  = RecipePost::withCount('postHasManyLikes')
+            ->where('recipe_user_id', Auth::user()->id)
+            ->get();
+        return Inertia::render(
+            'Recipe/MyRecipe',
+            [
+                'posts' => $posts,
+                'currentUser' => Auth::user()->id
             ]
         );
     }
@@ -98,9 +116,11 @@ class RecipePostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(RecipePost $recipePost)
+    public function edit(RecipePost $id)
     {
-        //
+        return Inertia::render('Recipe/InsideRecipe', [
+            'post' => $id->load('postHasManyIngredients', 'postHasManySteps')
+        ]);
     }
 
     /**
@@ -114,8 +134,8 @@ class RecipePostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RecipePost $recipePost)
+    public function destroy(RecipePost $id)
     {
-        //
+        $id->delete();
     }
 }

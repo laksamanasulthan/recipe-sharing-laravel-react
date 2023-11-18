@@ -26,7 +26,7 @@ class RecipePost extends Model
         return $this->hasMany(RecipeIngredient::class, 'recipe_post_id');
     }
 
-    public function postHasManyStep()
+    public function postHasManySteps()
     {
         return $this->hasMany(RecipeStep::class, 'recipe_post_id');
     }

@@ -3,11 +3,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import CardRecipe from './Partials/CardRecipe';
 
-export default function LandingRecipe({ auth, posts, currentUser }) {
+
+export default function MyRecipe({ auth, posts, currentUser }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Recipe</h2>}
+             // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Recipe</h2>}
         >
             <Head title="Recipe" />
 
@@ -15,14 +16,14 @@ export default function LandingRecipe({ auth, posts, currentUser }) {
                 <div className="cards max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
                     { posts && posts.map( (item) => (
-                        
-                        <div className="col">
-                            <CardRecipe
-                            key={item.id}
-                            post = {item}
-                            currentUser={currentUser}
-                        ></CardRecipe>
-                        </div>
+                            <div className="col">
+                                <CardRecipe
+                                    key={item.id}
+                                    post = {item}
+                                    currentUser={currentUser}
+                                ></CardRecipe> 
+                            </div>
+                              
                         )) 
                     }
                 </div>
