@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\RecipePostController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +34,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/recipe', [RecipePostController::class, 'index'])->name('recipe');
+
+    Route::group(['prefix' => 'recipe-post', 'controller' => RecipePostController::class], function () {
+        Route::get('/', 'index')->name('allrecipe');
+        Route::post('/', 'store')->name('stroeRecipe');
+        Route::patch('/{id}', 'update')->name('updateRecipe');
+    })->name('recipe_post');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

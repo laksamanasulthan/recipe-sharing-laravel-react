@@ -2,66 +2,48 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use Inertia\Inertia;
 use App\Models\RecipeLike;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreRecipeLikeRequest;
 use App\Http\Requests\UpdateRecipeLikeRequest;
 
 class RecipeLikeController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Display People who like the Post
      */
-    public function index()
+    public function show(Request $request)
     {
-        //
+        $folksWhoLikesThePost = RecipeLike::with(['likesBelongsToUser:name'])
+            ->where('recipe_post_id', $request->recipe_post_id)
+            ->get();
+
+        return Inertia::render();
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Like  Logic
      */
-    public function create()
+    public function like(StoreRecipeLikeRequest $request)
     {
-        //
+        RecipeLike::create([
+            'recipe_post_id' => $request->recipe_post_id,
+            'recipe_user_id' => Auth::user()->id,
+        ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Unlike Logic
      */
-    public function store(StoreRecipeLikeRequest $request)
+    public function unlike(StoreRecipeLikeRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(RecipeLike $recipeLike)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RecipeLike $recipeLike)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRecipeLikeRequest $request, RecipeLike $recipeLike)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RecipeLike $recipeLike)
-    {
-        //
+        RecipeLike::where([
+            ['recipe_post_id', $request->recipe_post_id],
+            ['recipe_user_id', Auth::user()->id,]
+        ])->delete();
     }
 }

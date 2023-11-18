@@ -11,7 +11,7 @@ class StoreRecipePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreRecipePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'judul' => ['required', 'min:1', 'max:255'],
+            'desc' => ['required', 'min:1'],
+            'bahan[]' => ['required'],
+            'langkah[]' => ['required'],
+            'photo' => ['file', 'mimes:jpg,png,jpeg,gif', 'max:4096'],
         ];
     }
 }
