@@ -28,10 +28,10 @@ export default function LandingRecipe({ auth }) {
     //     setInputFields(data);
     // }
 
-    const addFields = () => {
-        let newfield = { bahan: '' }
-        setInputFields([...inputFields, newfield])
-    }
+    // const addFields = () => {
+    //     let newfield = { bahan: '' }
+    //     setInputFields([...inputFields, newfield])
+    // }
 
     const submit = (e) => {
         e.preventDefault()

@@ -27,6 +27,7 @@ export default function LandingRecipe({ auth, recipes, currentUser }) {
                     }
                 </div>
             </div>
+            
 
           
         </AuthenticatedLayout>
